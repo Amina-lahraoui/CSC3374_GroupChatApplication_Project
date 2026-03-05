@@ -15,6 +15,7 @@ ParadigmsProject/
 ├── tcp_socket_server/                  # The Server-side application
 │   ├── src/main/java/ma/project/
 │   │   ├── TCPServer.java
+│   │   ├── Lancher.java
 │   │   ├── SModel.java
 │   │   ├── SView.java
 │   │   └── ClientHandler.java
@@ -22,6 +23,7 @@ ParadigmsProject/
 ├── tcp_socket_client/                  # The Client-side  application
 │  ├── src/main/java/ma/project/
 │  │   ├── TCPClient.java
+│  │   ├── Lancher.java
 │  │   ├── CModel.java
 │  │   └── CView.java
 │  └── pom.xml
