@@ -100,8 +100,10 @@ See the `diagrams/` folder for:
   <img src="diagrams/UMLClassDiagram.png" width="300"  alt="Description of the image">
 
 - Deployment Diagram for GroupChat Application:
-  <img src="diagrams/UMLClassDiagram.png" width="300"  alt="Description of the image">
-- Sequence Diagram
+<p>
+  <img src="diagrams/Deployment_Diagram-Deployment Diagram.png" width="300"  alt="Description of the image"> </p>
+- Sequence Diagram: one example would be connect User
+<img src="diagrams/Client_Connection.png" width="300"  alt="Description of the image"> </p>
 - Use case Diagram
 
 ## Author
