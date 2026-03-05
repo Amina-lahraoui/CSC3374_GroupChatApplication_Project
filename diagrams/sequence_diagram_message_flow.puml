@@ -8,6 +8,10 @@ skinparam sequenceParticipant {
 
 title Sequence Diagram - Message Broadcast (Client sends, Server distributes to all)
 
+note over user1, user2
+  **Note:** Applications started via\nLauncher.main() → TCPClient.main()\n(Launcher class not shown for clarity)
+end note
+
 participant "User 1" as user1
 participant "CView 1" as view1
 participant "CModel 1" as model1

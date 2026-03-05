@@ -7,6 +7,11 @@ skinparam sequenceParticipant {
 }
 
 title Sequence Diagram - Client Disconnection
+
+note over user, others
+  **Note:** Applications started via\nLauncher.main() → TCPClient/TCPServer.main()\n(Launcher class not shown for clarity)
+end note
+
 participant "AppUser" as user
 participant "CView" as view
 participant "CModel" as model

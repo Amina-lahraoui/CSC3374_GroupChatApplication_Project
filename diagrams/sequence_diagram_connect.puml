@@ -8,6 +8,9 @@ skinparam sequenceParticipant {
 
 title Sequence Diagram - Client Connection
 
+participant "JVM" as JVM
+participant "Launcher" as Launcher
+participant "TCPClient" as TCPClient
 participant "Chat User" as User
 participant "CView" as view
 participant "CModel" as model
@@ -16,6 +19,18 @@ participant "ServerSocket" as ServerSocket
 participant "ClientHandler" as Handler
 participant "SModel" as ServerModel
 participant "SView" as ServerView
+
+== Application Startup ==
+JVM -> Launcher : java -jar tcp_socket_client.jar\n(Launcher.main())
+activate Launcher
+Launcher -> TCPClient : TCPClient.main(args)
+activate TCPClient
+TCPClient -> TCPClient : launch(args)\n(JavaFX Application)
+TCPClient -> view : start(Stage)
+activate view
+view -> model : new CModel()
+activate model
+deactivate Launcher
 
 == Initiating the Connection ==
 user -> view : please enter username, then click Connect

@@ -1,0 +1,237 @@
+@startuml UML Class Diagram
+!theme plain
+skinparam backgroundColor #FFE5F1
+skinparam defaultFontSize 11
+skinparam class {
+    backgroundColor #FFF0F8
+    borderColor #9C27B0
+    arrowColor #673AB7
+}
+skinparam package {
+    backgroundColor #E1BEE7
+    borderColor #6B2C91
+}
+
+title UML Class Diagram - TCP GroupChat Application
+
+package "ma.project (Client JAR)" {
+
+    ' ========== CLIENT SIDE ==========
+    
+    class Launcher {
+        + {static} main(String[] args)
+        --
+        JAR entry point for client
+        Delegates to TCPClient.main()
+        Required for JavaFX 21
+    }
+    
+    class TCPClient {
+        - CModel Model
+        - CView View
+        - {static} String serverIP
+        - {static} int serverPort
+        + {static} main(String[] args)
+        + start(Stage PriStage)
+        + stop()
+        --
+        Extends: Application
+        JavaFX Application entry point
+    }
+    
+    class CModel {
+        - Socket socket
+        - DataInputStream dis
+        - DataOutputStream dos
+        - boolean connected
+        - boolean ReadOnly
+        - Thread RecieveThread
+        - CView View
+        + CModel()
+        + setView(CView v)
+        + connect(String IP, int PortNumb, String Uname)
+        + SendMessage(String msg)
+        + ReqAllUsers()
+        + disconnect()
+        + isConnected() : boolean
+        + isReadOnly() : boolean
+        - RecMessages()
+        - updateMessage(String msg)
+        - updateStatus(boolean Online)
+        - showError(String ERR)
+    }
+    
+    class CView {
+        - Stage s
+        - CModel m
+        - TextField UnameField
+        - Button ConnectBtn
+        - Label StatusLabel
+        - Circle statusCircle
+        - TextArea ChatArea
+        - TextField MsgField
+        - Button SendBtn
+        - Button allUsersBtn
+        - Button DiscotBtn
+        - boolean connected
+        - String ServerIP
+        - int ServerPort
+        + CView(Stage s)
+        + setM(CModel m)
+        + setServerInfo(String IP, int PortNumb)
+        + AddMessage(String msg)
+        + UpdateStatus(boolean online)
+        + ShowError(String ERR)
+        + show()
+        - setupUI()
+        - ControlConnect()
+        - ControlSend()
+    }
+    
+}
+
+package "ma.project (Server JAR)" {
+
+    ' ========== SERVER SIDE ==========
+    
+    class Launcher {
+        + {static} main(String[] args)
+        --
+        JAR entry point for server
+        Delegates to TCPServer.main()
+        Required for JavaFX 21
+    }
+    
+    class TCPServer {
+        - SModel m
+        - SView v
+        + {static} main(String[] args)
+        + start(Stage priStage)
+        + stop()
+        --
+        Extends: Application
+        JavaFX Application entry point
+    }
+    
+    class SModel {
+        - ServerSocket sSocket
+        - List<ClientHandler> Clients
+        - boolean running
+        - String serverIPAddr
+        - int server_Port
+        - SView View
+        + SModel()
+        + SetView(SView v)
+        + loadConfig(String FILEname)
+        + StartServer()
+        + StopServer()
+        + broadcastMessage(String msg, String Uname)
+        + RemoveClient(ClientHandler c)
+        + clientConnected(ClientHandler c, String Uname)
+        + clientDisconnected(String Uname)
+        + getAllUnames() : List<String>
+        + isRunning() : boolean
+        - updateUList()
+        - updateLog(String msg)
+    }
+    
+    class SView {
+        - Stage st
+        - SModel m
+        - Label statusL
+        - Circle statusC
+        - ListView<String> UserList
+        - TextArea logArea
+        - Button startBtn
+        - Button stopBtn
+        - ObservableList<String> Users
+        - Map<String, String> UColors
+        + SView(Stage s)
+        + setModel(SModel mod)
+        + addUser(String Uname, String col)
+        + removeUser(String Uname)
+        + updateUserList(List<String> Unames)
+        + updateLog(String msg)
+        + show()
+        - setupUI()
+    }
+    
+    class ClientHandler {
+        - Socket s
+        - DataInputStream dis
+        - DataOutputStream dos
+        - SModel server
+        - String Uname
+        - String color
+        - boolean connected
+        + ClientHandler(Socket so, SModel ser)
+        + run()
+        + sendMessage(String msg)
+        + disconnect()
+        + getUname() : String
+        + setColor(String color)
+        + getColor() : String
+        --
+        Implements: Runnable
+        Thread-per-connection handler
+    }
+}
+
+' ========== RELATIONSHIPS ==========
+
+' Client Launcher relationships (Client JAR)
+Launcher --> TCPClient : delegates to\nmain()
+
+' Client MVC relationships
+TCPClient --> CModel : creates\nuses
+TCPClient --> CView : creates\nuses
+CModel --> CView : notifies
+CView --> CModel : calls methods
+
+' Server Launcher relationships (Server JAR)
+Launcher --> TCPServer : delegates to\nmain()
+
+' Server MVC relationships
+TCPServer --> SModel : creates\nuses
+TCPServer --> SView : creates\nuses
+SModel --> SView : notifies
+SView --> SModel : calls methods
+
+' Server-ClientHandler relationships
+SModel --> ClientHandler : creates\nmanages
+ClientHandler --> SModel : notifies
+
+' JavaFX Framework
+TCPClient ..|> javafx.application.Application
+TCPServer ..|> javafx.application.Application
+
+' Java Standard Library
+CModel ..> java.net.Socket
+SModel ..> java.net.ServerSocket
+ClientHandler ..> java.net.Socket
+ClientHandler ..|> java.lang.Runnable
+
+note right of Launcher #FFF0F8
+  **Launcher Pattern (Client & Server):**
+  - Required for JavaFX 21 module system
+  - JAR manifest Main-Class entry point
+  - Delegates to Application.main()
+  - Solves module path compatibility issues
+  - Separate Launcher classes in each JAR
+end note
+
+note bottom of TCPClient
+  **Client Application:**
+  - Parses command-line args (IP, Port)
+  - Launches JavaFX Application
+  - Manages client lifecycle
+end note
+
+note bottom of TCPServer
+  **Server Application:**
+  - Loads server.properties config
+  - Launches JavaFX Application
+  - Manages server lifecycle
+end note
+
+@enduml
