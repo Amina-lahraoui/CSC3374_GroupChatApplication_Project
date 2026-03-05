@@ -1,5 +1,10 @@
 # CSC3374_GroupChatApplication_Project
 This mini-project is about Java Sockets by implementing a group chat application using TCP (Transmission Control Protocol) and JavaFX. The application enables real-time communication between multiple clients through a central server.
+**The project has Features:**
+- Java Sockets (TCP)
+- JavaFX for GUI
+- Thread-per-connection architecture
+- Model-View separation pattern
 # Problems that the GroupChatApplication Tackles
 The project tackles issues like connection of multiple client to one server and meassage broadcasting form one-to-many ueser at the same time. This means implementation of thread-per-connection model to handle various connections simoultaneously. In addiition, it uses users authentification using their names and restrict to read-only mode when the name is not provided. 
 
@@ -50,21 +55,21 @@ cd tcp_socket_client
 mvn clean package
 ```
 
-### Running the Applications
+### To Run the Two  Applications
 
-**Start Server:**
+**step 1: Starting the Server first is crucial:**
 ```bash
 cd tcp_socket_server
 java -jar target/tcp_socket_server-1.0-SNAPSHOT.jar
 ```
 
-**Start Client:**
+**Step 2: Starting  Client:**
 ```bash
 cd tcp_socket_client
 java -jar target/tcp_socket_client-1.0-SNAPSHOT.jar localhost 3000
 ```
-
-Or using the class files directly:
+**Step 3: Alternative method**
+Use Directly the Class Files :
 ```bash
 java TCPServer
 java TCPClient localhost 3000
@@ -79,30 +84,8 @@ java TCPClient localhost 3000
 - **Model-View Separation**: Clean architecture with separated logic and UI
 
 
-## Documentation
-
-- See `UML_DIAGRAMS.md` for Class and Deployment diagram documentation
-- See `IMPLEMENTATION_SUMMARY.md` for complete requirements fulfillment
-- See individual project READMEs for detailed usage instructions
-
-## Project Details
-
-This is a Mini Project implementation for a Group Chat Application using:
-- Java Sockets (TCP)
-- JavaFX for GUI
-- Thread-per-connection architecture
-- Model-View separation pattern
 
 
-## How to Run
-Start the server:
-```
-java -jar tcp_socket_server.jar
-```
-Start the client:
-```
-java -jar tcp_socket_client.jar localhost 3000
-```
 
 ## Usage
 - Enter a username to join the chat
@@ -112,9 +95,10 @@ java -jar tcp_socket_client.jar localhost 3000
 
 ## UML Diagrams
 See the `diagrams/` folder for:
-- Class Diagram
-- Deployment Diagram
+- DEtailed UML Class Diagram
+- Deployment Diagram for GroupChat Application
 - Sequence Diagram
+- Use case Diagram
 
 ## Author
 Amina Lahraoui
